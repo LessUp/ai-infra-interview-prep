@@ -1,61 +1,50 @@
-# 第 1 周：CUDA 编程基础
+# 第 1 周：基线评估、CUDA 模型、环境与性能工具
 
-> 📅 日期范围：YYYY-MM-DD ~ YYYY-MM-DD
-> 🎯 本周目标：掌握 CUDA 核心编程模型，能写简单的优化 Kernel
+> 📅 2026-08-24 ～ 2026-08-30
 
-## 学习内容
+## 本周目标
 
-### 周一：CUDA 编程模型入门
-- [ ] 阅读 CUDA C++ Programming Guide 第 1-2 章
-- [ ] 运行 `cuda-samples/Samples/0_Introduction/vectorAdd` — 理解 host/device 代码结构
-- [ ] 运行 `cuda-samples/Samples/0_Introduction/deviceQuery` — 了解你的 GPU 硬件参数
-- [ ] 手写一个向量加法的 CUDA Kernel
-- [ ] **核心概念：** Thread, Block, Grid, Warp 的层次结构
+建立可信的能力基线；复习 CUDA 编程模型；跑通 profiling 工具链，产出第一个可复现基准。
 
-### 周二：内存模型
-- [ ] 阅读 CUDA C++ Programming Guide 第 3 章（内存）
-- [ ] 运行 `cuda-samples/Samples/0_Introduction/matrixMul` — 理解共享内存
-- [ ] 运行 `cuda-samples/Samples/2_Concepts_and_Techniques/transpose` — 理解 Bank Conflict
-- [ ] **核心概念：** Global Memory, Shared Memory, Register, Constant Memory, Texture Memory
-- [ ] **面试题：** "什么是 Bank Conflict？如何解决？"
+## 先修知识
 
-### 周三：异步并发与 Stream
-- [ ] 运行 `cuda-samples/Samples/0_Introduction/asyncAPI` — 理解 Stream
-- [ ] 运行 `cuda-samples/Samples/0_Introduction/concurrentKernels` — 多 Stream 并发
-- [ ] **核心概念：** Stream, Event, cudaMemcpyAsync, 重叠执行
-- [ ] **面试题：** "Stream 的作用是什么？如何实现 Kernel 和 memcpy 的重叠？"
+C++、基本 GPU 概念。不需要读完任何大仓源码。
 
-### 周四：矩阵乘法优化（一）
-- [ ] 阅读 `SGEMM_CUDA` 的 naive 实现和 coalescing 版本
-- [ ] 理解 Global Memory Coalescing
-- [ ] 运行并对比性能
-- [ ] **核心概念：** Coalesced Memory Access, 内存对齐
+## 时间预算
 
-### 周五：矩阵乘法优化（二）
-- [ ] 阅读 `SGEMM_CUDA` 的 shared memory tiling 版本
-- [ ] 理解 Tiling 如何减少全局内存访问
-- [ ] 运行并对比性能
-- [ ] **核心概念：** Tiling, Shared Memory, Thread Synchronization
+24h 基准：CUDA/工具 12h · 实验与记录 6h · C++/算法维持 2h · 计划与复盘 4h。
+18h 档：实验减半，砍"拓展实验"。12h 档：只做 CUDA 问答 + 一个基准。
 
-### 周六：动手实践
-- [ ] 从零实现一个矩阵乘法 Kernel（naive 版本）
-- [ ] 添加 Coalescing 优化
-- [ ] 添加 Shared Memory Tiling
-- [ ] 用 `ncu`（Nsight Compute）分析每个版本的性能瓶颈
+## 阅读范围
 
-### 周日：复习与总结
-- [ ] 整理本周笔记
-- [ ] 完成 progress-tracker 打卡
-- [ ] 列出本周遇到的问题
-- [ ] 预览下周内容
+- open-infra-ai/cuda-foundations 的 SGEMM 阶梯（自己已有仓，快速重激活）
+- cuda-samples（Fork）：仅 `0_Introduction`（vectorAdd、deviceQuery、asyncAPI）
+- gpu-mode/lectures（Fork）：性能分析相关讲义
+- CUDA C++ Programming Guide 第 1–3 章（概念）
 
-## 本周总结
+## 动手实验
 
-### 收获
-- 
+1. `deviceQuery` 记录 RTX 3060 Laptop 6GB 的 SM 数、时钟、带宽规格。
+2. 重跑 cuda-foundations 的 SGEMM naive vs 最优版，记录数字。
+3. 安装并跑通 Nsight Systems + Nsight Compute 各一次（对 vectorAdd / naive SGEMM）。
 
-### 问题
-- 
+## 可验证交付物
 
-### 下周计划
-- 第 2 周：PyTorch 内部机制与 C++ 扩展
+- [ ] SKILL_MATRIX.md 完成首次自评（附证据链接）
+- [ ] 一页 CUDA 问答（线程层次、内存层次、warp、同步）——INTERVIEW_MATRIX 格式
+- [ ] 基准记录：硬件、驱动/CUDA 版本、命令、结果（可复现）
+
+## 面试问题
+
+- Thread/Block/Grid/Warp 层次与硬件（SM）的对应关系？
+- Global/Shared/Register/Constant 内存的延迟与用途？
+- Stream 和 Event 是什么，如何重叠 kernel 与 memcpy？
+- （加入 INTERVIEW_MATRIX.md 并写要点）
+
+## 退出条件
+
+三份交付物完成且基准数字可复现（重跑误差 < 1%）。
+
+## 未完成时
+
+基准实验优先；问答可顺延到 W2 周日；Nsight 可降级为"跑通一次"。

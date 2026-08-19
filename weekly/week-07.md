@@ -1,55 +1,48 @@
-# 第 7 周：Triton 语言与编译器
+# 第 7 周：Paged KV、Continuous Batching、调度
 
-> 📅 日期范围：YYYY-MM-DD ~ YYYY-MM-DD
-> 🎯 本周目标：能用 Triton 写高性能 Kernel
+> 📅 2026-10-05 ～ 10-11
 
-## 学习内容
+## 本周目标
 
-### 周一：Triton 编程模型
-- [ ] 阅读 Triton 官方文档
-- [ ] 运行 `tutorials/01-vector-add.py` — 第一个 Triton 程序
-- [ ] 理解 Block-based 编程模型
-- [ ] **核心概念：** `tl.program_id`, `tl.load`, `tl.store`, `tl.arange`
+把 paged-infer 的调度器状态机与不变量讲清楚，形成"推理系统设计"的完整叙事。
 
-### 周二：Triton 基础算子
-- [ ] 运行 `tutorials/02-fused-softmax.py` — 理解算子融合
-- [ ] 运行 `tutorials/04-low-memory-dropout.py`
-- [ ] 运行 `tutorials/05-layer-norm.py`
-- [ ] **动手：** 用 Triton 写一个 LayerNorm
+## 先修知识
 
-### 周三：矩阵乘法
-- [ ] 运行 `tutorials/03-matrix-multiplication.py` — 核心教程
-- [ ] 理解 Tiling 参数的选择
-- [ ] 理解 `tl.dot` 和 Tensor Core
-- [ ] **动手：** 自己写一个矩阵乘法 Kernel
+W5–W6。
 
-### 周四：Flash Attention in Triton
-- [ ] 运行 `tutorials/06-fused-attention.py`
-- [ ] 理解 Triton 如何实现 Flash Attention
-- [ ] 对比 CUDA 实现的差异
-- [ ] **面试题：** "用 Triton 实现 Flash Attention 的关键步骤？"
+## 时间预算
 
-### 周五：Triton-Puzzles
-- [ ] 完成 Puzzle 1-8（基础到中级）
-- [ ] 理解每个 Puzzle 对应的 GPU 编程模式
-- [ ] 对比你的解法和参考答案
+24h：paged-infer 代码重读 8h · 状态机/不变量文档 6h · 对照阅读 4h · C++/算法 2h · 复盘 4h。
 
-### 周六：动手实践
-- [ ] 用 Triton 实现一个完整的 Flash Attention Forward
-- [ ] 用 `ncu` 分析性能
-- [ ] 对比 `flash_attn_triton.py` 的实现
+## 阅读范围
 
-### 周日：复习与总结
-- [ ] 整理本周笔记
-- [ ] 完成 progress-tracker 打卡
+- open-infra-ai/paged-infer（主线）：block 分配器、调度循环、HTTP 控制面
+- Fork mini-sglang（P1）：对照调度主循环
+- Fork vllm（P2，"五个一"）：core scheduler 与 block manager
+- Fork sglang（P2，"五个一"）：scheduler 与 router
 
-## 本周总结
+## 动手实验
 
-### 收获
-- 
+1. 整理状态机图：请求生命周期（waiting→running→preempted→finished）与迁移条件。
+2. 写出分配器不变量清单（如"引用计数=使用该 block 的请求数"），逐条对应代码。
+3. 复跑 3 并发 e2e 对齐实验，复述量化差异的诚实记录方式。
 
-### 问题
-- 
+## 可验证交付物
 
-### 下周计划
-- 第 8 周：ML 编译器 (TVM)
+- [ ] 状态机图 + 不变量清单（代码行级定位）
+- [ ] INTERVIEW_MATRIX Q3 达 B 级以上
+- [ ] vllm + sglang 的"五个一"产出
+
+## 面试问题
+
+- 抢占式调度 recompute vs swap 的取舍？
+- copy-on-write 前缀共享怎么实现？
+- block size 怎么选（碎片 vs 元数据开销）？
+
+## 退出条件
+
+状态机图能徒手画出并能答两层追问。
+
+## 未完成时
+
+sglang"五个一"可砍；vllm 与状态机文档不可降级。

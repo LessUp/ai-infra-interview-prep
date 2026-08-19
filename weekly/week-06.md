@@ -1,59 +1,48 @@
-# 第 6 周：TensorRT-LLM 与推理优化
+# 第 6 周：KV Cache、Decode、CUDA Graph、性能指标
 
-> 📅 日期范围：YYYY-MM-DD ~ YYYY-MM-DD
-> 🎯 本周目标：理解 TensorRT-LLM 的优化技术
+> 📅 2026-09-28 ～ 10-04
 
-## 学习内容
+## 本周目标
 
-### 周一：TensorRT-LLM 整体架构
-- [ ] 阅读 README + `docs/source/overview.md`
-- [ ] 理解 TensorRT-LLM 的生态位置
-- [ ] 阅读 `docs/source/developer-guide/overview.md` — PyExecutor 架构
-- [ ] **核心概念：** Builder, Network, Runtime, PyExecutor
+建立推理性能指标体系（TTFT/TPOT/吞吐/显存/尾延迟），补 CUDA Graph 对照实验。
 
-### 周二：图优化
-- [ ] 理解 Layer Fusion 的原理
-- [ ] 理解 Constant Folding
-- [ ] 理解 Precision Calibration
-- [ ] 阅读 `tensorrt_llm/builder.py`
-- [ ] **面试题：** "TensorRT 做了哪些图优化？"
+## 先修知识
 
-### 周三：In-Flight Batching
-- [ ] 阅读 `docs/source/features/paged-attention-ifb-scheduler.md`
-- [ ] 理解三个容量参数
-- [ ] 理解调度可视化
-- [ ] 对比 vLLM 的 Continuous Batching
-- [ ] **面试题：** "In-Flight Batching 如何实现？"
+W5 的 decode 循环。
 
-### 周四：量化技术
-- [ ] 阅读 `docs/source/features/quantization.md`
-- [ ] 理解 INT8 SmoothQuant
-- [ ] 理解 FP8（H100 原生支持）
-- [ ] 理解 GPTQ/AWQ
-- [ ] **面试题：** "INT8 量化的原理？FP8 的优势？"
+## 时间预算
 
-### 周五：并行策略
-- [ ] 阅读 `docs/source/features/parallel-strategy.md`
-- [ ] 理解 TP/PP/DP/EP/CP 六种并行
-- [ ] 理解不同并行的适用场景
-- [ ] **面试题：** "TP 和 PP 的区别？什么时候用哪种？"
+24h：指标体系+测量实验 8h · CUDA Graph 实验 6h · KV Cache 策略复述 4h · C++/算法 2h · 复盘+SKILL_MATRIX 中期重评 4h。
 
-### 周六：动手实践
-- [ ] 用 TensorRT-LLM 部署一个模型
-- [ ] 运行 `trtllm-bench` 进行性能测试
-- [ ] 对比 vLLM 的性能
+## 阅读范围
 
-### 周日：复习与总结
-- [ ] 整理本周笔记
-- [ ] 完成 progress-tracker 打卡
+- open-infra-ai/tiny-llm：分页 KV（策略 1）实现与差分测试
+- Fork vllm（P2，"五个一"）：只读 metrics 定义与 benchmark 脚本目录
+- 论文：vLLM / PagedAttention（SOSP'23）第二遍（KV 管理部分精读）
 
-## 本周总结
+## 动手实验
 
-### 收获
-- 
+1. 在 tiny-llm 上测量：序列长度 vs TPOT 曲线、KV 显存占用曲线。
+2. CUDA Graph 实验：捕获 decode 单步图，对比 eager 模式 launch 开销（本机小模型可做）。
+3. 用统一口径计算并记录 TTFT（首次 token）与稳态 TPOT。
 
-### 问题
-- 
+## 可验证交付物
 
-### 下周计划
-- 第 7 周：Triton 语言与编译器
+- [ ] 指标报告：TTFT/TPOT/吞吐/显存，全部带口径
+- [ ] CUDA Graph 对照实验记录
+- [ ] SKILL_MATRIX 中期重评（附证据）
+- [ ] INTERVIEW_MATRIX Q4 补量化数字口径
+
+## 面试问题
+
+- TTFT 与 TPOT 分别由什么主导？
+- CUDA Graph 能加速 decode 的根本原因（launch 开销占比）？
+- KV Cache 显存公式（layers × 2 × seq × head_dim × dtype）？
+
+## 退出条件
+
+指标报告数字可复现；公式能徒手推导。
+
+## 未完成时
+
+CUDA Graph 实验可降级为"捕获成功+定性结论"；指标报告不可降级。

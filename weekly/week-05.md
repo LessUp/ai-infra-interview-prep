@@ -1,59 +1,48 @@
-# 第 5 周：LLM 推理引擎 (vLLM / SGLang)
+# 第 5 周：Transformer 推理、量化、模型加载
 
-> 📅 日期范围：YYYY-MM-DD ~ YYYY-MM-DD
-> 🎯 本周目标：理解 LLM 推理引擎的核心架构与优化技术
+> 📅 2026-09-21 ～ 2026-09-27
 
-## 学习内容
+## 本周目标
 
-### 周一：vLLM 整体架构
-- [ ] 阅读 vLLM 论文 + README
-- [ ] 运行 `vllm/examples/offline_inference.py` — 跑一个最简单的推理
-- [ ] 阅读 `vllm/engine/llm_engine.py` — 理解引擎的整体流程
-- [ ] 追踪一个请求的完整生命周期
-- [ ] **核心概念：** LLM Engine, Request, Generation
+把 tiny-llm 的主调用链（GGUF 加载 → 量化反量化 → decode 循环）讲成白板图。
 
-### 周二：PagedAttention（核心！）
-- [ ] 阅读 PagedAttention 论文
-- [ ] 阅读 `vllm/model_executor/layers/attention.py`
-- [ ] 理解 Block Table 和 KV Cache 管理
-- [ ] 画图：Block Table 的结构和映射关系
-- [ ] **面试题：** "PagedAttention 的原理？为什么能提升吞吐量？"
+## 先修知识
 
-### 周三：Continuous Batching
-- [ ] 阅读 `vllm/model_executor/scheduler.py` — 理解调度逻辑
-- [ ] 理解 prefill 和 decode 阶段的区别
-- [ ] 理解动态加入和移除请求的机制
-- [ ] **面试题：** "Continuous Batching 和 Static Batching 的区别？"
+Transformer 结构；W3 的 attention。
 
-### 周四：SGLang 对比学习
-- [ ] 阅读 SGLang 论文 + README
-- [ ] 运行 SGLang 的示例
-- [ ] 理解 RadixAttention 的原理
-- [ ] 对比 vLLM 和 SGLang 的设计差异
-- [ ] **面试题：** "SGLang 和 vLLM 的主要区别？"
+## 时间预算
 
-### 周五：mini 版本辅助理解
-- [ ] 阅读 `nano-vllm` 的完整代码
-- [ ] 阅读 `mini-sglang` 的完整代码
-- [ ] 理解精简版如何展示核心架构
-- [ ] 对比完整版和精简版
+24h：tiny-llm 代码重读 8h · 量化实验 6h · 白板图+讲解 4h · C++/算法 2h · 复盘 4h。
 
-### 周六：动手实践
-- [ ] 部署 vLLM 或 SGLang
-- [ ] 用 benchmark 测试在不同 batch size 下的吞吐量
-- [ ] 观察 KV Cache 的使用情况
+## 阅读范围
 
-### 周日：复习与总结
-- [ ] 整理本周笔记
-- [ ] 完成 progress-tracker 打卡
+- open-infra-ai/tiny-llm：权重加载、W8A16、decode 主循环（主线）
+- Fork nano-vllm（P1）：对照极简实现的主链路
+- Fork minGPT（P3）：仅看 Transformer block 结构（如需补基础）
+- PagedAttention 论文（SOSP'23）第一遍通读
 
-## 本周总结
+## 动手实验
 
-### 收获
-- 
+1. 重跑 tiny-llm W8A16 benchmark，复现 TPOT ≈ 6.1 ms/token，记录完整口径（模型、prompt、硬件、命令）。
+2. 对比 int8 权重 vs fp16 权重的显存占用与逐 token 输出差异。
+3. 画主调用链时序图（加载/预热/单步 decode）。
 
-### 问题
-- 
+## 可验证交付物
 
-### 下周计划
-- 第 6 周：TensorRT-LLM 与推理优化
+- [ ] tiny-llm 主调用链白板图 + 讲解文档
+- [ ] 量化实验记录（误差与收益）
+- [ ] INTERVIEW_MATRIX Q4 达 B 级以上
+
+## 面试问题
+
+- per-channel scale 为什么比 per-tensor 误差小？
+- dequant 放在 kernel 内外各有什么代价？
+- GGUF 里除了权重还存什么（metadata、rope 参数）？
+
+## 退出条件
+
+白板图能徒手画出；TPOT 数字可复现。
+
+## 未完成时
+
+nano-vllm 对照可砍；tiny-llm 主链路不可降级。

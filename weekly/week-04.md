@@ -1,56 +1,48 @@
-# 第 4 周：Flash Attention 原理
+# 第 4 周：Triton、PyTorch 自定义算子
 
-> 📅 日期范围：YYYY-MM-DD ~ YYYY-MM-DD
-> 🎯 本周目标：深入理解 Flash Attention 的算法原理与实现
+> 📅 2026-09-14 ～ 2026-09-20
 
-## 学习内容
+## 本周目标
 
-### 周一：Attention 基础回顾
-- [ ] 复习标准 Attention 的计算流程
-- [ ] 计算 Attention 的内存访问量（HBM reads/writes）
-- [ ] 理解标准 Attention 的内存瓶颈
-- [ ] **核心公式：** O = softmax(QK^T/√d)V
+完成同一 kernel 的 CUDA/Triton 对照报告；打通 PyTorch 自定义算子注册到 torch.compile 的链路认知。
 
-### 周二：Flash Attention 算法（一）
-- [ ] 阅读 Flash Attention 论文 Section 1-3
-- [ ] 理解 Tiling 策略
-- [ ] 理解 Online Softmax 的数学推导
-- [ ] **面试题：** "Flash Attention 为什么比标准 Attention 快？"
+## 先修知识
 
-### 周三：Flash Attention 算法（二）
-- [ ] 阅读 `flash_attn/flash_attn_triton.py` — Triton 实现
-- [ ] 理解 Forward Pass 的完整流程
-- [ ] 理解 Backward Pass 的 Recomputation 策略
-- [ ] **面试题：** "Flash Attention 如何减少内存访问？"
+W2–W3；Python 装饰器基础。
 
-### 周四：Flash Attention 2
-- [ ] 阅读 Flash Attention 2 论文
-- [ ] 理解改进点：减少非 matmul FLOPs
-- [ ] 理解更好的并行策略
-- [ ] **面试题：** "Flash Attention 2 相比 1 做了哪些改进？"
+## 时间预算
 
-### 周五：Flash Attention 3
-- [ ] 阅读 Flash Attention 3 论文/博客
-- [ ] 理解 Hopper 架构的新特性（TMA, FP8）
-- [ ] 理解异步执行和低精度
-- [ ] **面试题：** "Flash Attention 3 利用了 Hopper 架构的哪些特性？"
+24h：Triton 实验 8h · torch.library/torch.compile 实验 6h · 对照报告 4h · C++/算法 2h · 复盘+矩阵 4h。
 
-### 周六：动手实践
-- [ ] 用 Triton 实现一个简化版 Flash Attention
-- [ ] 对比标准 Attention 的性能
-- [ ] 用 `ncu` 分析你的实现
+## 阅读范围
 
-### 周日：复习与总结
-- [ ] 整理本周笔记
-- [ ] 完成 progress-tracker 打卡
+- open-infra-ai/triton-fused-ops：全部算子 + torch.library 注册（主线）
+- Fork Triton-Puzzles：做完核心 puzzle
+- Fork extension-cpp：C++ 扩展模板（快速过）
+- Fork triton（P2，"五个一"）：只读 python/triton 语言前端与 tutorials
 
-## 本周总结
+## 动手实验
 
-### 收获
-- 
+1. 选一个算子（如 fused RMSNorm+RoPE 或 SGEMM）：写 CUDA vs Triton 同口径 benchmark（形状矩阵：M/N/K 三档）。
+2. 用 torch.compile（inductor）编译调用了自定义 op 的模型，观察 graph break；补 meta/fake tensor 注册后对比。
+3. 解释 triton-fused-ops 的注册模式与 vLLM/SGLang 的 custom op 接入一致性。
 
-### 问题
-- 
+## 可验证交付物
 
-### 下周计划
-- 第 5 周：LLM 推理引擎 (vLLM / SGLang)
+- [ ] CUDA/Triton 对照报告（数字带口径）
+- [ ] torch.library + torch.compile 实验记录（成功与 graph break 案例）
+- [ ] INTERVIEW_MATRIX Q7 达 B 级以上
+
+## 面试问题
+
+- Triton 与手写 CUDA 的取舍（开发效率 vs 控制粒度）？
+- torch.library 注册缺 meta 实现会怎样？
+- num_warps/num_stages 怎么调？
+
+## 退出条件
+
+对照报告数字可复现；能解释注册全流程。
+
+## 未完成时
+
+torch.compile 深挖可顺延；Triton 对照报告不可降级。

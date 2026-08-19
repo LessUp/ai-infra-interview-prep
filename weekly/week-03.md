@@ -1,57 +1,49 @@
-# 第 3 周：GPU 性能优化基础
+# 第 3 周：Attention、Online Softmax、FlashAttention
 
-> 📅 日期范围：YYYY-MM-DD ~ YYYY-MM-DD
-> 🎯 本周目标：掌握 GPU 性能分析工具与方法论，理解 Roofline 模型
+> 📅 2026-09-07 ～ 2026-09-13
 
-## 学习内容
+## 本周目标
 
-### 周一：Nsight Systems 入门
-- [ ] 安装 Nsight Systems
-- [ ] 学习 `nsys profile` 的基本用法
-- [ ] 分析一个 CUDA 程序的 timeline
-- [ ] **核心概念：** Timeline, Kernel Duration, Memory Transfer
+手推 online softmax 与 FlashAttention 分块公式；把 cuflash-attn 的实现讲成自己的故事。
 
-### 周二：Nsight Compute 入门
-- [ ] 安装 Nsight Compute
-- [ ] 学习 `ncu` 的基本用法
-- [ ] 分析一个 Kernel 的详细性能指标
-- [ ] **核心概念：** Occupancy, Memory Throughput, Compute Throughput, Roofline
+## 先修知识
 
-### 周三：Roofline 模型
-- [ ] 理解 Roofline 模型的理论
-- [ ] 画出你的 GPU 的 Roofline 图
-- [ ] 分析你的 Kernel 在 Roofline 上的位置
-- [ ] **面试题：** "什么是 Roofline 模型？如何用它分析性能？"
+W2 的 tiling/WMMA；标准 attention 公式。
 
-### 周四：内存带宽优化
-- [ ] 分析矩阵乘法的内存访问模式
-- [ ] 理解 Arithmetic Intensity（算术强度）
-- [ ] 优化 Kernel 的内存访问
-- [ ] **核心概念：** Memory Bound vs Compute Bound
+## 时间预算
 
-### 周五：Occupancy 与 Latency Hiding
-- [ ] 理解 Occupancy 的概念
-- [ ] 理解 Warp 调度和 Latency Hiding
-- [ ] 用 `ncu` 分析 Occupancy
-- [ ] **面试题：** "什么是 Occupancy？如何提升 Occupancy？"
+24h：算法手推 6h · cuflash-attn 代码重读+注释 8h · 差分/benchmark 复现 6h · C++/算法 2h · 复盘 2h。
 
-### 周六：动手实践 — 性能分析
-- [ ] 选择你之前写的一个 Kernel
-- [ ] 用 `nsys` 和 `ncu` 进行完整分析
-- [ ] 找出性能瓶颈
-- [ ] 优化并对比前后性能
+## 阅读范围
 
-### 周日：复习与总结
-- [ ] 整理本周笔记
-- [ ] 完成 progress-tracker 打卡
+- open-infra-ai/cuflash-attn：前向 kernel（WMMA 分块、causal 边界跳过）、后向
+- triton-fused-ops：Triton 版 FlashAttention 对照
+- Fork flash-attention（P2，"五个一"）：只读 `core` 目录前向主链路
+- 论文：FlashAttention (NeurIPS'22)、FlashAttention-2 (2023)
 
-## 本周总结
+## 动手实验
 
-### 收获
-- 
+1. 重跑 cuflash-attn 的 FP32/FP16/BF16 差分测试与 benchmark，记录口径。
+2. 复述 grid.y 65535 越界 bug 的发现、修复与回归测试（真实调试故事）。
+3. 用 Triton 版与 CUDA 版做同口径性能对照。
 
-### 问题
-- 
+## 可验证交付物
 
-### 下周计划
-- 第 4 周：Flash Attention 原理
+- [ ] 手推笔记（online softmax 两参数递推 + 数值稳定性）
+- [ ] cuflash-attn 代码定位文档（kernel 入口、分块结构、WMMA 调用点）
+- [ ] flash-attention（P2）"五个一"产出
+- [ ] INTERVIEW_MATRIX Q1 达到 B 级以上
+
+## 面试问题
+
+- 为什么 online softmax 能保持数值稳定？
+- causal mask 如何按块跳过？节省多少计算？
+- FA2 相对 FA1 改了什么（并行划分、非 matmul FLOPs）？
+
+## 退出条件
+
+白板手推无卡顿；能打开仓库任一关键文件现场讲解。
+
+## 未完成时
+
+后向传播细节可降级为"理解思路"；前向必须完全掌握。

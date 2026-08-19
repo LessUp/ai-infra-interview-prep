@@ -5,26 +5,26 @@
 ### AI Infra 核心 — 必读
 | 仓库 | 深度分析 | 重要性 | 建议学习时间 |
 |------|----------|--------|-------------|
-| [cuda-samples](https://github.com/LessUp/cuda-samples) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/cuda-samples.md) | ⭐⭐⭐⭐⭐ | 第 1 周 |
-| [triton](https://github.com/LessUp/triton) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/triton.md) | ⭐⭐⭐⭐⭐ | 第 7 周 |
-| [tvm](https://github.com/LessUp/tvm) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/tvm.md) | ⭐⭐⭐⭐ | 第 8 周 |
-| [flash-attention](https://github.com/LessUp/flash-attention) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/flash-attention.md) | ⭐⭐⭐⭐⭐ | 第 4 周 |
-| [vllm](https://github.com/LessUp/vllm) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/vllm.md) | ⭐⭐⭐⭐⭐ | 第 5 周 |
-| [sglang](https://github.com/LessUp/sglang) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/sglang.md) | ⭐⭐⭐⭐⭐ | 第 5 周 |
-| [TensorRT-LLM](https://github.com/LessUp/TensorRT-LLM) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/tensorrt-llm.md) | ⭐⭐⭐⭐ | 第 6 周 |
+| [cuda-samples](https://github.com/LessUp/cuda-samples) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/cuda-samples.md) | ⭐⭐⭐⭐⭐ | W1 |
+| [triton](https://github.com/LessUp/triton) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/triton.md) | ⭐⭐⭐⭐⭐ | W4（P2·五个一） |
+| [tvm](https://github.com/LessUp/tvm) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/tvm.md) | ⭐⭐⭐⭐ | 选修（仅编译器方向） |
+| [flash-attention](https://github.com/LessUp/flash-attention) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/flash-attention.md) | ⭐⭐⭐⭐⭐ | W3（P2·五个一） |
+| [vllm](https://github.com/LessUp/vllm) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/vllm.md) | ⭐⭐⭐⭐⭐ | W7（P2·五个一） |
+| [sglang](https://github.com/LessUp/sglang) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/sglang.md) | ⭐⭐⭐⭐⭐ | W7（P2·五个一） |
+| [TensorRT-LLM](https://github.com/LessUp/TensorRT-LLM) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/tensorrt-llm.md) | ⭐⭐⭐⭐ | W7/W9（P2·五个一） |
 
 ### AI Infra 辅助 — 推荐
 | 仓库 | 深度分析 | 重要性 | 建议学习时间 |
 |------|----------|--------|-------------|
-| [SGEMM_CUDA](https://github.com/LessUp/SGEMM_CUDA) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/sgemm-cuda.md) | ⭐⭐⭐⭐ | 第 1 周 |
-| [flashinfer](https://github.com/LessUp/flashinfer) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/flashinfer.md) | ⭐⭐⭐⭐ | 第 9 周 |
-| [extension-cpp](https://github.com/LessUp/extension-cpp) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/extension-cpp.md) | ⭐⭐⭐⭐ | 第 2 周 |
-| [LightLLM](https://github.com/LessUp/LightLLM) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/lightllm.md) | ⭐⭐⭐ | 第 5 周 |
+| [SGEMM_CUDA](https://github.com/LessUp/SGEMM_CUDA) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/sgemm-cuda.md) | ⭐⭐⭐⭐ | W2 |
+| [flashinfer](https://github.com/LessUp/flashinfer) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/flashinfer.md) | ⭐⭐⭐⭐ | W4（P2·五个一） |
+| [extension-cpp](https://github.com/LessUp/extension-cpp) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/extension-cpp.md) | ⭐⭐⭐⭐ | W4 |
+| [LightLLM](https://github.com/LessUp/LightLLM) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/lightllm.md) | ⭐⭐⭐ | 选修 |
 | [lectures](https://github.com/LessUp/lectures) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/lectures.md) | ⭐⭐⭐⭐ | 贯穿 |
-| [Triton-Puzzles](https://github.com/LessUp/Triton-Puzzles) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/triton-puzzles.md) | ⭐⭐⭐⭐ | 第 7 周 |
-| [cuda-course](https://github.com/LessUp/cuda-course) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/cuda-course.md) | ⭐⭐⭐ | 第 1 周 |
-| [mini-sglang](https://github.com/LessUp/mini-sglang) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/mini-sglang.md) | ⭐⭐⭐ | 第 5 周 |
-| [nano-vllm](https://github.com/LessUp/nano-vllm) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/nano-vllm.md) | ⭐⭐⭐ | 第 5 周 |
+| [Triton-Puzzles](https://github.com/LessUp/Triton-Puzzles) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/triton-puzzles.md) | ⭐⭐⭐⭐ | W4 |
+| [cuda-course](https://github.com/LessUp/cuda-course) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/cuda-course.md) | ⭐⭐⭐ | W1 |
+| [mini-sglang](https://github.com/LessUp/mini-sglang) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/mini-sglang.md) | ⭐⭐⭐ | W7 |
+| [nano-vllm](https://github.com/LessUp/nano-vllm) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/nano-vllm.md) | ⭐⭐⭐ | W5 |
 | [minGPT](https://github.com/LessUp/minGPT) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/mingpt.md) | ⭐⭐ | 按需 |
 | [LLM-Workshop](https://github.com/LessUp/LLM-Workshop) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/llm-workshop.md) | ⭐⭐ | 按需 |
 | [tutorials](https://github.com/LessUp/tutorials) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/triton-inference-server-tutorials.md) | ⭐⭐ | 按需 |
@@ -33,7 +33,7 @@
 ### HPC 与系统
 | 仓库 | 深度分析 | 重要性 |
 |------|----------|--------|
-| [ompi](https://github.com/LessUp/ompi) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/ompi.md) | ⭐⭐ |
+| [ompi](https://github.com/LessUp/ompi) | [深度分析](https://github.com/LessUp/github-repos-hub/blob/main/deep-dives/ompi.md) | ⭐⭐ · W9 理论参考 |
 | [cpp-high-performance-guide](https://github.com/LessUp/cpp-high-performance-guide) | - | ⭐⭐⭐ |
 | [bitcal](https://github.com/LessUp/bitcal) | - | ⭐⭐ |
 

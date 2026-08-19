@@ -1,56 +1,49 @@
-# 第 9 周：FlashInfer 与自定义 Kernel
+# 第 9 周：NCCL、并行策略、通信/计算重叠
 
-> 📅 日期范围：YYYY-MM-DD ~ YYYY-MM-DD
-> 🎯 本周目标：理解 LLM 推理中的核心 Kernel 实现
+> 📅 2026-10-19 ～ 10-25
 
-## 学习内容
+## 本周目标
 
-### 周一：FlashInfer 整体架构
-- [ ] 阅读 FlashInfer README
-- [ ] 理解 FlashInfer 提供的 Kernel 类型
-- [ ] 理解 FlashInfer 与 vLLM/SGLang 的关系
-- [ ] **核心概念：** Attention Kernel, Sampling Kernel, Quantization Kernel
+分布式推理的**理论** mastery。本机单卡，无多 GPU 实验条件——一切产出必须标注
+"理论学习/模拟"，不得伪造实验数据。
 
-### 周二：Attention Kernel
-- [ ] 阅读 FlashInfer 的 Attention Kernel 实现
-- [ ] 理解 PagedAttention 的 Kernel 实现
-- [ ] 理解 Prefill 和 Decode 的不同优化策略
-- [ ] **面试题：** "PagedAttention 的 Kernel 如何实现？"
+## 先修知识
 
-### 周三：采样 Kernel
-- [ ] 阅读 Top-K / Top-P 采样 Kernel
-- [ ] 理解拒绝采样
-- [ ] 理解惩罚（Frequency / Presence Penalty）
-- [ ] **面试题：** "GPU 上如何实现高效的采样？"
+矩阵分块乘法；W7 的系统观。
 
-### 周四：辅助 Kernel
-- [ ] 阅读 LayerNorm / RMSNorm Kernel
-- [ ] 阅读 Rotary Embedding (RoPE) Kernel
-- [ ] 阅读 Activation 函数 Kernel
-- [ ] **面试题：** "如何优化 LayerNorm Kernel？"
+## 时间预算
 
-### 周五：Kernel 优化技巧
-- [ ] 学习 FlashInfer 中的优化技巧
-- [ ] 理解 Warp Specialization
-- [ ] 理解 Persistent Kernel
-- [ ] 理解 Cooperative Groups
+24h：理论 10h · 源码/论文研读 6h · 单机模拟 4h · C++/算法 2h · 复盘 2h。
 
-### 周六：动手实践
-- [ ] 为 FlashInfer 贡献一个简单的 Kernel
-- [ ] 或者写一个自己的 LLM 推理 Kernel
-- [ ] 用 `ncu` 分析性能
+## 阅读范围
 
-### 周日：复习与总结
-- [ ] 整理本周笔记
-- [ ] 完成 progress-tracker 打卡
+- NCCL 文档（collectives、topology、ring/tree 算法）
+- Fork ompi（P3）：只看通信抽象层（选读）
+- TensorRT-LLM（P2，"五个一"）：TP 相关文档与 benchmark 目录
+- 论文：Megatron-LM（TP 划分）、sequence parallelism 综述
 
-## 本周总结
+## 动手实验
 
-### 收获
-- 
+1. 单机模拟：在 CPU/单 GPU 上模拟 TP 的通信量计算（每层 2 次集合通信的公式推导）。
+2. 用小脚本演示 ring AllReduce 的步骤分解（时间步 × 数据块表）。
+3. 推导并验证：TP 对小 batch 不友好的原因（通信占比公式）。
 
-### 问题
-- 
+## 可验证交付物
 
-### 下周计划
-- 第 10 周：个人项目
+- [ ] 并行策略对比笔记（TP/PP/SP/DP：通信量、显存、适用 batch）
+- [ ] ring AllReduce 带宽公式推导
+- [ ] INTERVIEW_MATRIX Q6 达 B 级（明确声明理论级）
+
+## 面试问题
+
+- ring AllReduce 总数据量公式（2(n-1)/n × size）？
+- TP 每层哪两次通信？怎么与计算重叠？
+- NVLink vs PCIe 带宽差对重叠收益的影响？
+
+## 退出条件
+
+公式推导与策略对比能白板完成，且口头明确"单卡环境，以下为理论结论"。
+
+## 未完成时
+
+模拟实验可砍；公式推导与策略对比不可降级。
